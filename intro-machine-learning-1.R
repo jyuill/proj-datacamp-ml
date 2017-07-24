@@ -80,3 +80,29 @@ linkedin_pred <- predict(linkedin_lm, future)
 ## plot results
 plot(linkedin ~ days, xlim = c(1, 26))
 points(22:26, linkedin_pred, col = "green")
+
+#### CLUSTERS
+## use iris
+
+set.seed(123)
+str(iris)
+## remove species variable since this is what you are 
+## trying to replicate with clusers, based on other variables
+my_iris <- iris[,-5]
+## get species to compare with cluserts
+species <- iris$Species
+
+## get kmeans clusters for 3 clusters
+kmeans_iris <- kmeans(my_iris, 3)
+
+## compare species to clusters to see how well clusters align with species
+table(species, kmeans_iris$cluster)
+## conclusion:
+## - setosa is exact match with cluster 1: all of setosa fall into cluster 1, and all of cluster 1 are setosa 
+## - versicolor matches closely with cluster 3, although 2 instances fall into clustor 2, and
+##   there are 14 virginica that fall into cluster 3
+## - virginica matches pretty well with cluster 2, although cluster 2 includes a couple of versicolo,
+##   and almost 1/3 of virginica fall into cluster 3
+
+# Plot Petal.Width against Petal.Length, coloring by cluster
+plot(Petal.Length ~ Petal.Width, data = my_iris, col = kmeans_iris$cluster)
