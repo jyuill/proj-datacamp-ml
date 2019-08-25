@@ -1,10 +1,20 @@
 
+library(tidyverse)
+
 ## linear regression model and prediction with mtcars
 ## based on examples in DataCamp course
 
 summary(mtcars)
 head(mtcars)
+mt <- mtcars
+mt$car <- row.names(mt)
+row.names(mt) <- seq(from=1, to=nrow(mt), by=1)
 
+## visualize relationship
+ggplot(mt, aes(x=disp, y=mpg))+geom_point()+
+  geom_smooth(method=lm)
+
+## linear regression
 lm.cars <- lm(mpg ~ disp, data=mtcars)
 unseen <- data.frame(disp=250)
 
